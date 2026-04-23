@@ -18,18 +18,30 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
+
+        const { useState } = React;  
+
         const ListaAnimali = () => {
-            const animals = ["Cat", "Dog", "Bird"];
-            return (
+            const animalsChoices = ["Cat", "Dog", "Bird", "Horse", "Panda"];
+            const [animals, setAnimals] = useState([]);
+
+            const addAnimal = () => {
+                const randomIndex = Math.floor(Math.random() * animalsChoices.length);
+                const randomAnimal = animalsChoices[randomIndex];
+                setAnimals(curr => [...curr, randomAnimal]); 
+            }
+
+            return (<>
+            <button onClick= {addAnimal}>Add random animals</button>
                 <details>
-                    <summary>Animali</summary>
+                    <summary>Animals</summary>
                     <ul>
                         {animals.map((animal, index) => (
                             <li key={index}>{animal}</li>
                         ))}
                     </ul>
                 </details>
-            )
+            </>)
         }
     </script>
 
@@ -47,7 +59,7 @@
     <header>
         <h1>I miei animali Preferiti</h1>
     </header>
-    
+
     <main>
         <figure>
             <img src="https://picsum.photos/400/300" alt="Immagine Casuale">

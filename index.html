@@ -19,20 +19,45 @@
 
     <script type="text/babel">
 
-        const { useState } = React;  
+        const { useState } = React;
+
+        function Modal({
+            title,
+            content,
+            show = false,
+            onClose = () => {},
+            onConfirm = () => {}
+        }) {
+            return show && ReactDOM.createPortal(
+                <div className="modal-container">
+                    <div className="modal">
+                        <h2>{title}</h2>
+                        {content}
+                        <div>
+                            <button onClick={onClose}>Cancel</button>
+                            <button onConfirm={onConfirm}>Confirm</button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )
+        }
 
         const ListaAnimali = () => {
             const animalsChoices = ["Cat", "Dog", "Bird", "Horse", "Panda"];
+
             const [animals, setAnimals] = useState([]);
 
-            const addAnimal = () => {
-                const randomIndex = Math.floor(Math.random() * animalsChoices.length);
-                const randomAnimal = animalsChoices[randomIndex];
-                setAnimals(curr => [...curr, randomAnimal]); 
-            }
+            const [show, setShow] = useState(false);
+
+            const [animalName, setAnimalName] = useState("");
+
+            const addAnimal = () => {}
+
+
 
             return (<>
-            <button onClick= {addAnimal}>Add random animals</button>
+                <button onClick={() => setShow(true)}>Add random animals</button>
                 <details>
                     <summary>Animals</summary>
                     <ul>
@@ -41,6 +66,18 @@
                         ))}
                     </ul>
                 </details>
+                <Modal
+                    show = {show}
+                    onClose = {() => setShow(false)}
+                    title = "Add an animal"
+                    content = {
+                        <input 
+                            type = "text"
+                            value = {}
+                            onChange = {e => setAnimalName(e.target.value)}/>
+
+                    }
+                />
             </>)
         }
     </script>

@@ -25,8 +25,8 @@
             title,
             content,
             show = false,
-            onClose = () => {},
-            onConfirm = () => {}
+            onClose = () => { },
+            onConfirm = () => { }
         }) {
             return show && ReactDOM.createPortal(
                 <div className="modal-container">
@@ -35,7 +35,7 @@
                         {content}
                         <div>
                             <button onClick={onClose}>Cancel</button>
-                            <button onConfirm={onConfirm}>Confirm</button>
+                            <button onClick={onConfirm}>Confirm</button>
                         </div>
                     </div>
                 </div>,
@@ -52,7 +52,11 @@
 
             const [animalName, setAnimalName] = useState("");
 
-            const addAnimal = () => {}
+            const addAnimal = () => {
+                if (!animalName) return;
+                setAnimals(curr => [...curr, animalName]);
+                setShow(false);
+            }
 
 
 
@@ -67,15 +71,16 @@
                     </ul>
                 </details>
                 <Modal
-                    show = {show}
-                    onClose = {() => setShow(false)}
-                    title = "Add an animal"
-                    content = {
-                        <input 
-                            type = "text"
-                            value = {}
-                            onChange = {e => setAnimalName(e.target.value)}/>
-
+                    show={show}
+                    onClose={() => setShow(false)}
+                    onConfirm={addAnimal}
+                    title="Add an animal"
+                    content={
+                        <input
+                            type="text"
+                            value={animalName}
+                            onChange={e => setAnimalName(e.target.value)}
+                        />
                     }
                 />
             </>)
